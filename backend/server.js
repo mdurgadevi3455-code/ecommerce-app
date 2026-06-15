@@ -19,6 +19,8 @@ app.use('/api/transactions', require('./routes/transactions'));
 app.use('/api/notifications', require('./routes/notifications'));
 
 app.get('/', (req, res) => res.send('API Running ✅'));
+// Keep alive ping
+app.get('/ping', (req, res) => res.send('pong'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
