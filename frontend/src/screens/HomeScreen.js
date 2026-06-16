@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { useAuth } from '../constants/AuthContext';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import API from '../constants/api';
 
 export default function HomeScreen() {
@@ -17,7 +17,16 @@ export default function HomeScreen() {
 
   useEffect(() => {
     fetchStats();
+    // Auto refresh every 30 seconds
+    const interval = setInterval(fetchStats, 30000);
+    return () => clearInterval(interval);
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchStats();
+    }, [])
+  );
 
   const fetchStats = async () => {
     try {
