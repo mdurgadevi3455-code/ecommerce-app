@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet,
-  ScrollView, StatusBar
+  ScrollView, StatusBar, ActivityIndicator
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { useAuth } from '../constants/AuthContext';
@@ -13,6 +13,7 @@ export default function HomeScreen() {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [stats, setStats] = useState({ cart: 0, transactions: 0, wishlist: 0 });
+  const [statsLoading, setStatsLoading] = useState(true);
 
   useEffect(() => {
     fetchStats();
@@ -20,6 +21,7 @@ export default function HomeScreen() {
 
   const fetchStats = async () => {
     try {
+      setStatsLoading(true);
       const [cartRes, transRes, wishRes] = await Promise.all([
         API.get('/cart'),
         API.get('/transactions?limit=1000'),
@@ -32,6 +34,8 @@ export default function HomeScreen() {
       });
     } catch (err) {
       console.log('Stats error:', err.message);
+    } finally {
+      setStatsLoading(false);
     }
   };
 
@@ -104,15 +108,24 @@ export default function HomeScreen() {
       {/* Stats Row */}
       <View style={styles.statsRow}>
         <View style={[styles.statBox, { backgroundColor: colors.primary + '15', borderColor: colors.primary + '40' }]}>
-          <Text style={[styles.statNum, { color: colors.primary }]}>{stats.cart}</Text>
+          {statsLoading
+            ? <ActivityIndicator size="small" color={colors.primary} />
+            : <Text style={[styles.statNum, { color: colors.primary }]}>{stats.cart}</Text>
+          }
           <Text style={[styles.statLbl, { color: colors.subtext }]}>Cart Items</Text>
         </View>
         <View style={[styles.statBox, { backgroundColor: colors.success + '15', borderColor: colors.success + '40' }]}>
-          <Text style={[styles.statNum, { color: colors.success }]}>{stats.transactions}</Text>
+          {statsLoading
+            ? <ActivityIndicator size="small" color={colors.success} />
+            : <Text style={[styles.statNum, { color: colors.success }]}>{stats.transactions}</Text>
+          }
           <Text style={[styles.statLbl, { color: colors.subtext }]}>Orders</Text>
         </View>
         <View style={[styles.statBox, { backgroundColor: '#E91E6315', borderColor: '#E91E6340' }]}>
-          <Text style={[styles.statNum, { color: '#E91E63' }]}>{stats.wishlist}</Text>
+          {statsLoading
+            ? <ActivityIndicator size="small" color="#E91E63" />
+            : <Text style={[styles.statNum, { color: '#E91E63' }]}>{stats.wishlist}</Text>
+          }
           <Text style={[styles.statLbl, { color: colors.subtext }]}>Wishlist</Text>
         </View>
       </View>
