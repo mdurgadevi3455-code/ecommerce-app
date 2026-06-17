@@ -1,12 +1,12 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API = axios.create({
   baseURL: 'https://ecommerce-app-backend-1e9h.onrender.com/api',
 });
 
-// Automatically attach token to every request
-API.interceptors.request.use((config) => {
-  const token = global.userToken;
+API.interceptors.request.use(async (config) => {
+  const token = await AsyncStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
