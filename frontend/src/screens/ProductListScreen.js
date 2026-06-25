@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity,
+  View, Text, FlatList, TouchableOpacity, Image,
   StyleSheet, ActivityIndicator, TextInput,
   StatusBar, ScrollView
 } from 'react-native';
@@ -62,8 +62,16 @@ export default function ProductListScreen() {
 
       {/* Image Box */}
       <View style={[styles.imageBox, { backgroundColor: colors.surface }]}>
-        <Text style={styles.imageEmoji}>🛍️</Text>
-        {item.stock === 0 && (
+  {item.image ? (
+    <Image
+      source={{ uri: item.image }}
+      style={styles.productImage}
+      resizeMode="cover"
+    />
+  ) : (
+    <Text style={styles.imageEmoji}>🛍️</Text>
+  )}
+  {item.stock === 0 && (
           <View style={[styles.outOfStockBadge, { backgroundColor: colors.error }]}>
             <Text style={styles.outOfStockText}>Out of Stock</Text>
           </View>
@@ -223,6 +231,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', position: 'relative',
   },
   imageEmoji: { fontSize: 48 },
+  productImage: { width: '100%', height: '100%' },
   outOfStockBadge: {
     position: 'absolute', bottom: 8, left: 8,
     paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6,

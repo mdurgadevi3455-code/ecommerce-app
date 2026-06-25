@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity,
+  View, Text, FlatList, TouchableOpacity, Image,
   StyleSheet, ActivityIndicator, Alert, ScrollView
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
@@ -107,8 +107,16 @@ export default function CartScreen() {
 
       <View style={styles.cardContent}>
         <View style={[styles.productImage, { backgroundColor: colors.surface }]}>
-          <Text style={{ fontSize: 28 }}>🛍️</Text>
-        </View>
+  {item.image ? (
+    <Image
+      source={{ uri: item.image }}
+      style={styles.productImageInner}
+      resizeMode="cover"
+    />
+  ) : (
+    <Text style={{ fontSize: 28 }}>🛍️</Text>
+  )}
+</View>
 
         <View style={styles.productInfo}>
           <Text style={[styles.productName, { color: colors.text }]}>{item.name}</Text>
@@ -162,8 +170,16 @@ export default function CartScreen() {
     <View style={[styles.savedCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
       <View style={styles.cardContent}>
         <View style={[styles.savedImage, { backgroundColor: colors.card }]}>
-          <Text style={{ fontSize: 22 }}>🛍️</Text>
-        </View>
+  {item.image ? (
+    <Image
+      source={{ uri: item.image }}
+      style={styles.savedImageInner}
+      resizeMode="cover"
+    />
+  ) : (
+    <Text style={{ fontSize: 22 }}>🛍️</Text>
+  )}
+</View>
         <View style={styles.productInfo}>
           <Text style={[styles.productName, { color: colors.text }]}>{item.name}</Text>
           <Text style={[styles.productPrice, { color: colors.primary }]}>
@@ -278,8 +294,9 @@ const styles = StyleSheet.create({
   cardContent: { flexDirection: 'row', padding: 12, alignItems: 'center' },
   productImage: {
     width: 80, height: 80, borderRadius: 12,
-    justifyContent: 'center', alignItems: 'center',
+    justifyContent: 'center', alignItems: 'center', overflow: 'hidden',
   },
+  productImageInner: { width: '100%', height: '100%' },
   productInfo: { flex: 1, marginLeft: 12 },
   productName: { fontSize: 15, fontWeight: 'bold', marginBottom: 4 },
   productCategory: { fontSize: 12, marginBottom: 4 },
@@ -304,8 +321,9 @@ const styles = StyleSheet.create({
   },
   savedImage: {
     width: 60, height: 60, borderRadius: 10,
-    justifyContent: 'center', alignItems: 'center',
+    justifyContent: 'center', alignItems: 'center', overflow: 'hidden',
   },
+  savedImageInner: { width: '100%', height: '100%' },
   moveBtn: {
     paddingHorizontal: 12, paddingVertical: 8,
     borderRadius: 8,

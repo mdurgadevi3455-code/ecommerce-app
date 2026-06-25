@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity,
+  View, Text, FlatList, TouchableOpacity, Image,
   StyleSheet, ActivityIndicator, ScrollView
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
@@ -63,8 +63,16 @@ export default function RecommendationScreen() {
 
         {/* Product Image */}
         <View style={[styles.imageBox, { backgroundColor: colors.surface }]}>
-          <Text style={{ fontSize: 36 }}>🛍️</Text>
-          {/* Wishlist button */}
+  {item.image ? (
+    <Image
+      source={{ uri: item.image }}
+      style={styles.productImage}
+      resizeMode="cover"
+    />
+  ) : (
+    <Text style={{ fontSize: 36 }}>🛍️</Text>
+  )}
+  {/* Wishlist button */}
           <TouchableOpacity
             style={[styles.wishlistBtn, { backgroundColor: colors.card }]}
             onPress={() => toggleWishlist(item._id)}
@@ -233,8 +241,9 @@ const styles = StyleSheet.create({
   },
   imageBox: {
     height: 120, justifyContent: 'center',
-    alignItems: 'center', position: 'relative',
+    alignItems: 'center', position: 'relative', overflow: 'hidden',
   },
+  productImage: { width: '100%', height: '100%', position: 'absolute' },
   wishlistBtn: {
     position: 'absolute', top: 8, right: 8,
     width: 32, height: 32, borderRadius: 16,

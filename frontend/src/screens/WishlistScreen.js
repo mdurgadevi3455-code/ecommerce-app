@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity,
+  View, Text, FlatList, TouchableOpacity, Image,
   StyleSheet, ActivityIndicator
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
@@ -44,8 +44,16 @@ export default function WishlistScreen() {
         style={styles.cardContent}
         onPress={() => router.push(`/product/${item._id}`)}>
         <View style={[styles.imageBox, { backgroundColor: colors.surface }]}>
-          <Text style={styles.imageEmoji}>🛍️</Text>
-        </View>
+  {item.image ? (
+    <Image
+      source={{ uri: item.image }}
+      style={styles.productImage}
+      resizeMode="cover"
+    />
+  ) : (
+    <Text style={styles.imageEmoji}>🛍️</Text>
+  )}
+</View>
         <View style={styles.info}>
           <Text style={[styles.category, { color: colors.subtext }]}>{item.category}</Text>
           <Text style={[styles.name, { color: colors.text }]} numberOfLines={2}>{item.name}</Text>
@@ -146,8 +154,9 @@ const styles = StyleSheet.create({
   cardContent: { flexDirection: 'row', padding: 12 },
   imageBox: {
     width: 90, height: 90, borderRadius: 12,
-    justifyContent: 'center', alignItems: 'center',
+    justifyContent: 'center', alignItems: 'center', overflow: 'hidden',
   },
+  productImage: { width: '100%', height: '100%' },
   imageEmoji: { fontSize: 40 },
   info: { flex: 1, marginLeft: 12, justifyContent: 'center' },
   category: { fontSize: 10, textTransform: 'uppercase', fontWeight: '600', marginBottom: 4 },

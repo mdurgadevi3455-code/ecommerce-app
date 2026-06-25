@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity,
+  View, Text, FlatList, TouchableOpacity, Image,
   StyleSheet, ActivityIndicator
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
@@ -61,8 +61,16 @@ export default function RecentlyViewedScreen() {
       style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}
       onPress={() => router.push(`/product/${item._id}`)}>
       <View style={[styles.imagePlaceholder, { backgroundColor: colors.surface }]}>
-        <Text style={{ fontSize: 28 }}>🛍️</Text>
-      </View>
+  {item.image ? (
+    <Image
+      source={{ uri: item.image }}
+      style={styles.imageInner}
+      resizeMode="cover"
+    />
+  ) : (
+    <Text style={{ fontSize: 28 }}>🛍️</Text>
+  )}
+</View>
       <View style={styles.info}>
         <Text style={[styles.name, { color: colors.text }]}>{item.name}</Text>
         <Text style={[styles.category, { color: colors.subtext }]}>{item.category}</Text>
@@ -118,8 +126,9 @@ const styles = StyleSheet.create({
   },
   imagePlaceholder: {
     width: 70, height: 70, borderRadius: 10,
-    justifyContent: 'center', alignItems: 'center',
+    justifyContent: 'center', alignItems: 'center', overflow: 'hidden',
   },
+  imageInner: { width: '100%', height: '100%' },
   info: { flex: 1, marginLeft: 12, justifyContent: 'center' },
   name: { fontSize: 15, fontWeight: 'bold', marginBottom: 2 },
   category: { fontSize: 12, marginBottom: 2 },

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, TouchableOpacity,
+  View, Text, TouchableOpacity, Image,
   StyleSheet, ActivityIndicator, ScrollView, Alert
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
@@ -120,9 +120,17 @@ export default function ProductDetailScreen() {
   </TouchableOpacity>
 </View>
 
-      <View style={[styles.imagePlaceholder, { backgroundColor: colors.surface }]}>
-        <Text style={{ fontSize: 80 }}>🛍️</Text>
-      </View>
+      {product.image ? (
+  <Image
+    source={{ uri: product.image }}
+    style={styles.imagePlaceholder}
+    resizeMode="cover"
+  />
+) : (
+  <View style={[styles.imagePlaceholder, { backgroundColor: colors.surface }]}>
+    <Text style={{ fontSize: 80 }}>🛍️</Text>
+  </View>
+)}
 
       <View style={styles.details}>
         <Text style={[styles.category, { color: colors.subtext }]}>{product.category}</Text>
