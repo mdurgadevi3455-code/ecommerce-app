@@ -55,52 +55,36 @@ export default function RecommendationScreen() {
 
   const renderProduct = ({ item }) => {
     const isWishlisted = wishlist.includes(item._id);
-
     return (
       <TouchableOpacity
         style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}
         onPress={() => router.push(`/product/${item._id}`)}>
-
-        {/* Product Image */}
-        <View style={[styles.imageBox, { backgroundColor: colors.surface }]}>
-  {item.image ? (
-    <Image
-      source={{ uri: item.image }}
-      style={styles.productImage}
-      resizeMode="cover"
-    />
-  ) : (
-    <Text style={{ fontSize: 36 }}>🛍️</Text>
-  )}
-  {/* Wishlist button */}
+        <View style={styles.imageBox}>
+          {item.image ? (
+            <Image
+              source={{ uri: item.image }}
+              style={styles.productImage}
+              resizeMode="contain"
+            />
+          ) : (
+            <Text style={{ fontSize: 28 }}>🛍️</Text>
+          )}
           <TouchableOpacity
-            style={[styles.wishlistBtn, { backgroundColor: colors.card }]}
+            style={styles.wishlistBtn}
             onPress={() => toggleWishlist(item._id)}
             disabled={wishlistLoading === item._id}>
             {wishlistLoading === item._id
               ? <ActivityIndicator size="small" color={colors.error} />
-              : <Text style={{ fontSize: 18 }}>{isWishlisted ? '❤️' : '🤍'}</Text>
+              : <Text style={{ fontSize: 14 }}>{isWishlisted ? '❤️' : '🤍'}</Text>
             }
           </TouchableOpacity>
         </View>
-
-        {/* Product Info */}
         <View style={styles.info}>
-          <Text style={[styles.category, { color: colors.subtext }]}>
-            {item.category}
-          </Text>
-          <Text style={[styles.name, { color: colors.text }]} numberOfLines={2}>
-            {item.name}
-          </Text>
-          <Text style={[styles.price, { color: colors.primary }]}>
-            ₹{item.price.toLocaleString()}
-          </Text>
-
-          {/* Popularity bar */}
+          <Text style={[styles.category, { color: colors.subtext }]}>{item.category}</Text>
+          <Text style={[styles.name, { color: colors.text }]} numberOfLines={2}>{item.name}</Text>
+          <Text style={[styles.price, { color: colors.primary }]}>₹{item.price.toLocaleString()}</Text>
           <View style={styles.popularityRow}>
-            <Text style={[styles.popularityLabel, { color: colors.subtext }]}>
-              🔥 {item.popularity} views
-            </Text>
+            <Text style={[styles.popularityLabel, { color: colors.subtext }]}>🔥 {item.popularity} views</Text>
             <View style={[styles.stockBadge, {
               backgroundColor: item.stock > 0 ? colors.success + '20' : colors.error + '20'
             }]}>
@@ -205,8 +189,6 @@ export default function RecommendationScreen() {
           data={recommendations}
           keyExtractor={(item) => item._id}
           renderItem={renderProduct}
-          numColumns={2}
-          columnWrapperStyle={styles.row}
           scrollEnabled={false}
           contentContainerStyle={{ paddingBottom: 32 }}
         />
@@ -236,24 +218,28 @@ const styles = StyleSheet.create({
   categoryChipText: { fontSize: 12, fontWeight: '600' },
   row: { justifyContent: 'space-between', marginBottom: 12 },
   card: {
-    width: '48%', borderWidth: 1,
-    borderRadius: 16, overflow: 'hidden',
+    flexDirection: 'row', borderWidth: 1,
+    borderRadius: 14, padding: 12, marginBottom: 12,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06, shadowRadius: 6, elevation: 2,
   },
   imageBox: {
-    height: 120, justifyContent: 'center',
-    alignItems: 'center', position: 'relative', overflow: 'hidden',
-  },
-  productImage: { width: '100%', height: '100%', position: 'absolute' },
-  wishlistBtn: {
-    position: 'absolute', top: 8, right: 8,
-    width: 32, height: 32, borderRadius: 16,
+    width: 80, height: 80, borderRadius: 12,
     justifyContent: 'center', alignItems: 'center',
+    overflow: 'hidden', backgroundColor: '#fff',
+  },
+  productImage: { width: '100%', height: '100%' },
+  wishlistBtn: {
+    position: 'absolute', top: -6, right: -6,
+    width: 28, height: 28, borderRadius: 14,
+    justifyContent: 'center', alignItems: 'center',
+    backgroundColor: '#fff',
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2, shadowRadius: 2, elevation: 2,
   },
-  info: { padding: 10 },
-  category: { fontSize: 10, textTransform: 'uppercase', marginBottom: 2 },
-  name: { fontSize: 13, fontWeight: 'bold', marginBottom: 4 },
+  info: { flex: 1, marginLeft: 12, justifyContent: 'center' },
+  category: { fontSize: 10, textTransform: 'uppercase', marginBottom: 2, fontWeight: '600' },
+  name: { fontSize: 14, fontWeight: 'bold', marginBottom: 4 },
   price: { fontSize: 15, fontWeight: 'bold', marginBottom: 6 },
   popularityRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   popularityLabel: { fontSize: 10 },
