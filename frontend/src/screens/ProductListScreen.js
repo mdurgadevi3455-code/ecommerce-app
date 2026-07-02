@@ -66,7 +66,7 @@ export default function ProductListScreen() {
     <Image
       source={{ uri: item.image }}
       style={styles.productImage}
-      resizeMode="cover"
+      resizeMode="contain"
     />
   ) : (
     <Text style={styles.imageEmoji}>🛍️</Text>
@@ -225,13 +225,16 @@ const styles = StyleSheet.create({
   card: {
     width: '48.5%', borderWidth: 1,
     borderRadius: 18, overflow: 'hidden',
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06, shadowRadius: 6, elevation: 2,
   },
   imageBox: {
-    height: 110, justifyContent: 'center',
+    height: 130, justifyContent: 'center',
     alignItems: 'center', position: 'relative',
+    backgroundColor: '#fff', padding: 10,
   },
   imageEmoji: { fontSize: 48 },
-  productImage: { width: '100%', height: '100%' },
+  productImage: { width: '100%', height: '100%', borderRadius: 12 },
   outOfStockBadge: {
     position: 'absolute', bottom: 8, left: 8,
     paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6,
@@ -242,9 +245,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6,
   },
   popularText: { color: '#fff', fontSize: 10, fontWeight: '700' },
-  info: { padding: 12 },
+  info: { padding: 14 },
   category: { fontSize: 10, textTransform: 'uppercase', marginBottom: 4, fontWeight: '600' },
-  name: { fontSize: 13, fontWeight: 'bold', marginBottom: 8, lineHeight: 18 },
+  name: { fontSize: 14, fontWeight: 'bold', marginBottom: 8, lineHeight: 19 },
   bottomRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   price: { fontSize: 15, fontWeight: 'bold' },
   stockBadge: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: 6 },

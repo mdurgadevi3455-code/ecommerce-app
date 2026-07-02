@@ -124,7 +124,7 @@ export default function ProductDetailScreen() {
   <Image
     source={{ uri: product.image }}
     style={styles.imagePlaceholder}
-    resizeMode="cover"
+    resizeMode="contain"
   />
 ) : (
   <View style={[styles.imagePlaceholder, { backgroundColor: colors.surface }]}>
@@ -164,8 +164,9 @@ const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   backBtn: { padding: 16, marginTop: 40 },
   imagePlaceholder: {
-    height: 250, justifyContent: 'center',
-    alignItems: 'center', marginHorizontal: 16, borderRadius: 16,
+    height: 500, justifyContent: 'center',
+    alignItems: 'center', marginHorizontal: 100, borderRadius: 16,
+    backgroundColor: '#fff', overflow: 'hidden',
   },
   details: { padding: 16 },
   category: { fontSize: 14, marginBottom: 4, textTransform: 'uppercase' },
