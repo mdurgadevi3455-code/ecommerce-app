@@ -32,6 +32,7 @@ exports.getCart = async (req, res) => {
         priceChanged,
         outOfStock,
         stock: product.stock,
+        image: product.image,
         quantity: item.quantity,
         addedAt: item.addedAt,
       };
