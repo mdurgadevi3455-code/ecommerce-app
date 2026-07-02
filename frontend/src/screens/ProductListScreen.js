@@ -59,38 +59,27 @@ export default function ProductListScreen() {
     <TouchableOpacity
       style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}
       onPress={() => router.push(`/product/${item._id}`)}>
-
-      {/* Image Box */}
-      <View style={[styles.imageBox, { backgroundColor: colors.surface }]}>
-  {item.image ? (
-    <Image
-      source={{ uri: item.image }}
-      style={styles.productImage}
-      resizeMode="contain"
-    />
-  ) : (
-    <Text style={styles.imageEmoji}>🛍️</Text>
-  )}
-  {item.stock === 0 && (
-          <View style={[styles.outOfStockBadge, { backgroundColor: colors.error }]}>
-            <Text style={styles.outOfStockText}>Out of Stock</Text>
-          </View>
-        )}
-        {item.popularity > 80 && (
-          <View style={[styles.popularBadge, { backgroundColor: colors.primary }]}>
-            <Text style={styles.popularText}>🔥 Popular</Text>
-          </View>
+      <View style={styles.imageBox}>
+        {item.image ? (
+          <Image
+            source={{ uri: item.image }}
+            style={styles.productImage}
+            resizeMode="contain"
+          />
+        ) : (
+          <Text style={{ fontSize: 28 }}>🛍️</Text>
         )}
       </View>
-
-      {/* Info */}
       <View style={styles.info}>
         <Text style={[styles.category, { color: colors.subtext }]}>{item.category}</Text>
         <Text style={[styles.name, { color: colors.text }]} numberOfLines={2}>{item.name}</Text>
+        <Text style={[styles.price, { color: colors.primary }]}>₹{item.price.toLocaleString()}</Text>
         <View style={styles.bottomRow}>
-          <Text style={[styles.price, { color: colors.primary }]}>
-            ₹{item.price.toLocaleString()}
-          </Text>
+          {item.popularity > 80 && (
+            <View style={[styles.popularBadge, { backgroundColor: colors.primary + '20' }]}>
+              <Text style={[styles.popularText, { color: colors.primary }]}>🔥 Popular</Text>
+            </View>
+          )}
           <View style={[styles.stockBadge, {
             backgroundColor: item.stock > 0 ? colors.success + '20' : colors.error + '20'
           }]}>
@@ -186,8 +175,6 @@ export default function ProductListScreen() {
           data={filtered}
           keyExtractor={(item) => item._id}
           renderItem={renderProduct}
-          numColumns={2}
-          columnWrapperStyle={styles.row}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 32 }}
         />
@@ -221,35 +208,25 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   categoryChipText: { fontSize: 13, fontWeight: '700' },
-  row: { justifyContent: 'space-between', marginBottom: 12 },
   card: {
-    width: '48.5%', borderWidth: 1,
-    borderRadius: 18, overflow: 'hidden',
+    flexDirection: 'row', borderWidth: 1,
+    borderRadius: 14, padding: 12, marginBottom: 12,
     shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06, shadowRadius: 6, elevation: 2,
   },
   imageBox: {
-    height: 130, justifyContent: 'center',
-    alignItems: 'center', position: 'relative',
-    backgroundColor: '#fff', padding: 10,
+    width: 80, height: 80, borderRadius: 12,
+    justifyContent: 'center', alignItems: 'center',
+    overflow: 'hidden', backgroundColor: '#fff',
   },
-  imageEmoji: { fontSize: 48 },
-  productImage: { width: '100%', height: '100%', borderRadius: 12 },
-  outOfStockBadge: {
-    position: 'absolute', bottom: 8, left: 8,
-    paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6,
-  },
-  outOfStockText: { color: '#fff', fontSize: 10, fontWeight: '700' },
-  popularBadge: {
-    position: 'absolute', top: 8, right: 8,
-    paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6,
-  },
-  popularText: { color: '#fff', fontSize: 10, fontWeight: '700' },
-  info: { padding: 14 },
+  productImage: { width: '100%', height: '100%' },
+  info: { flex: 1, marginLeft: 12, justifyContent: 'center' },
   category: { fontSize: 10, textTransform: 'uppercase', marginBottom: 4, fontWeight: '600' },
-  name: { fontSize: 14, fontWeight: 'bold', marginBottom: 8, lineHeight: 19 },
-  bottomRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  price: { fontSize: 15, fontWeight: 'bold' },
+  name: { fontSize: 14, fontWeight: 'bold', marginBottom: 4, lineHeight: 19 },
+  price: { fontSize: 15, fontWeight: 'bold', marginBottom: 6 },
+  bottomRow: { flexDirection: 'row', gap: 8, alignItems: 'center' },
+  popularBadge: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: 6 },
+  popularText: { fontSize: 10, fontWeight: '600' },
   stockBadge: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: 6 },
   stockText: { fontSize: 10, fontWeight: '600' },
   emptyText: { fontSize: 16 },
